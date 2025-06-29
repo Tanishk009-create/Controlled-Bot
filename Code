@@ -1,0 +1,96 @@
+// Left motor pins
+#define MOTOR_LEFT_FORWARD 9    // IN1 for left motor
+#define MOTOR_LEFT_REVERSE 8    // IN2 for left motor
+#define MOTOR_LEFT_ENABLE  10   // Enable pin for left motor
+
+// Right motor pins
+#define MOTOR_RIGHT_FORWARD 7   // IN3 for right motor
+#define MOTOR_RIGHT_REVERSE 6   // IN4 for right motor
+#define MOTOR_RIGHT_ENABLE 5    // Enable pin for left motor
+
+void setup(){
+  Serial.begin(115200);
+
+  pinMode(MOTOR_RIGHT_FORWARD, OUTPUT);
+  pinMode(MOTOR_RIGHT_REVERSE, OUTPUT);
+  pinMode(MOTOR_RIGHT_ENABLE, OUTPUT);
+  
+  pinMode(MOTOR_LEFT_FORWARD, OUTPUT);
+  pinMode(MOTOR_LEFT_REVERSE, OUTPUT);
+  pinMode(MOTOR_LEFT_ENABLE, OUTPUT); 
+}
+
+void forward(int delayd) {
+
+  Serial.println("Forward");
+  digitalWrite(MOTOR_RIGHT_FORWARD, HIGH);
+  digitalWrite(MOTOR_RIGHT_REVERSE, LOW);
+  digitalWrite(MOTOR_LEFT_FORWARD, HIGH);
+  digitalWrite(MOTOR_LEFT_REVERSE, LOW);
+  analogWrite(MOTOR_RIGHT_ENABLE, 100);          
+  analogWrite(MOTOR_LEFT_ENABLE, 255);           
+  delay(delayd);
+}
+
+void left90(int delayd){
+
+  Serial.println("Right");
+  digitalWrite(MOTOR_RIGHT_FORWARD, HIGH);
+  digitalWrite(MOTOR_RIGHT_REVERSE, LOW);
+  digitalWrite(MOTOR_LEFT_FORWARD, LOW);
+  digitalWrite(MOTOR_LEFT_REVERSE, LOW);
+  analogWrite(MOTOR_RIGHT_ENABLE, 100);          
+  analogWrite(MOTOR_LEFT_ENABLE, 255);                     
+  delay(delayd);                                            
+}
+
+void right90(int delayd) {
+  
+   Serial.println("Left");
+   digitalWrite(MOTOR_RIGHT_FORWARD, LOW);
+   digitalWrite(MOTOR_RIGHT_REVERSE, LOW);
+   digitalWrite(MOTOR_LEFT_FORWARD, HIGH);
+   digitalWrite(MOTOR_LEFT_REVERSE, LOW);
+   analogWrite(MOTOR_RIGHT_ENABLE, 100);              
+   analogWrite(MOTOR_LEFT_ENABLE, 255);
+   delay(delayd);
+
+ }
+
+void turnaround(int delayd) {
+  
+  Serial.println("180 Degree");
+  digitalWrite(MOTOR_RIGHT_FORWARD, HIGH);  // Right motor forward
+  digitalWrite(MOTOR_RIGHT_REVERSE, LOW);
+  digitalWrite(MOTOR_LEFT_FORWARD, LOW);   // Left motor backward
+  digitalWrite(MOTOR_LEFT_REVERSE, HIGH);
+  analogWrite(MOTOR_LEFT_ENABLE,255);
+  analogWrite(MOTOR_RIGHT_ENABLE,100);
+  delay(delayd);
+
+}
+
+void pause(int delayd) 
+{
+  digitalWrite(MOTOR_RIGHT_FORWARD, LOW);
+  digitalWrite(MOTOR_RIGHT_REVERSE, LOW);
+  digitalWrite(MOTOR_LEFT_FORWARD, LOW);
+  digitalWrite(MOTOR_LEFT_REVERSE, LOW);
+  analogWrite(MOTOR_RIGHT_ENABLE, 0);                
+  analogWrite(MOTOR_LEFT_ENABLE, 0);
+  delay(delayd);                                 
+}
+
+void loop()
+{
+  forward(2000);
+  right90(1800);
+  forward(2000);
+  left90(1800);
+  forward(2000);
+  turnaround(1700);
+  pause(1000);
+  forward(2000);
+   
+}
+
